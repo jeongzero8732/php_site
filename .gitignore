@@ -10,6 +10,7 @@ application/logs/*
 
 test/
 tset3/
+eclass/
 
 composer.lock
 
