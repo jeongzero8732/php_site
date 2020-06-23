@@ -1,11 +1,11 @@
 
 <div id="cont-log">
-	<form action="/jungjaeho_free/UserServlet" id="login-form" method="POST">
+	<form action="/index.php/auth/authentication" id="login-form" method="POST">
 		<label class="legend">아이디</label>
 		<input name="userid" type="text" required>
 		<label class="legend">패스워드</label> 
-		<input name="passwprd" type="password" required> 
+		<input name="password" type="password" required> 
 		<input type="submit" name="key" value="login">
-		<a class="legend" style="float:right;" href="<?=site_url()?>/auth/register">회원가입</a>
+		<a class="legend" style="float:right;" href="/index.php/auth/register">회원가입</a>
 	</form>
 </div>

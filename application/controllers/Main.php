@@ -23,14 +23,11 @@ class Main extends CI_Controller {
 
     }
 
-    public function get($id)
-    {
-        $data=array('id'=>$id);
-        $this->load->view('get',$data);
-    }
 
     public function _layout(){
         //header, main, footer 로딩
+        // var_dump($this->session->userdata('session_test'));
+        // $this->session->set_userdata('session_test','jaeho');
         $this->load->view('head');
         $this->load->view('nav');
         $this->load->view('home');

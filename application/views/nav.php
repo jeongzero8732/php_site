@@ -4,13 +4,21 @@
             <nav id="Nav-Menu">
                 <ul>
                     <li>
-                        <a class="menubar" href="<?=site_url();?>/main">메인</a>
+                        <a class="menubar" href="/index.php/main">메인</a>
                     </li>
                     <li>
-                        <a class="menubar" href="<?=site_url();?>/evaluation">강의평가</a>
+                        <a class="menubar" href="/index.php/evaluation">강의평가</a>
                     </li>
                     <li>
-                        <a class="menubar" href="<?=site_url();?>/auth/login">회원정보</a>
+                    <?php
+                        if($this->session->userdata('is_login')){
+                    ?>       
+                        <a class="menubar" href="/index.php/auth/update">회원정보</a>
+                    <?php
+                        } else{
+                    ?>                 
+                        <a class="menubar" href="/index.php/auth/login">회원정보</a>
+                        <?php }?>
                     </li>
                 </ul>
             </nav>
