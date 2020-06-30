@@ -6,31 +6,23 @@ class Main extends CI_Controller {
     public function index()
 	{
         $this->_layout();
-    }
-    
-    public function home(){
-        $this-> _layout();
-    }
-
-    public function evaluation(){
-        $this->load->view('head');
-        $this->load->view('nav');
-        $this->load->view('lecture/evaluation');
-        $this->load->view('footer');
-    }
-
-    public function login(){
+        #$this->output->cache(5);
+        $this -> output -> enable_profiler(TRUE);
 
     }
-
 
     public function _layout(){
-        //header, main, footer 로딩
-        // var_dump($this->session->userdata('session_test'));
-        // $this->session->set_userdata('session_test','jaeho');
+        #$this->benchmark->mark('head_start');
         $this->load->view('head');
+        #$this->benchmark->mark('head_end');
+        #$this->benchmark->mark('nav_start');
         $this->load->view('nav');
+        #$this->benchmark->mark('nav_end');
+        #$this->benchmark->mark('home_start');
         $this->load->view('home');
+        #$this->benchmark->mark('home_end');
+       # $this->benchmark->mark('footer_start');
         $this->load->view('footer');
+       # $this->benchmark->mark('footer_end');
     }
 }

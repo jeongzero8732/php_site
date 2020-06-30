@@ -7,13 +7,13 @@
 				<?php echo validation_errors(); ?>
 		        </div>
 		        <br><br>
-		        <form action="/index.php/evaluation/insert" method="post">
+		        <form action="/index.php/evaluation/insert" method="post" enctype="multipart/form-data"	>
 		            <table class="sign-table">
 		                <tr>
 		                    <td id="title">강의명</td>
 		                    <td><input type="text" name="lecName" maxlength="20" required></td>
 		                    <td id="title">교수명</td>
-		                    <td><input type="text" name="proName" maxlength="20" required"></td>
+		                    <td><input type="text" name="proName" maxlength="20" required></td>
 		                </tr>
 		                        
 		                <tr>
@@ -79,6 +79,9 @@
 		                    </td>
 		                </tr>
 		             </table>
+
+					 <div><input type="file" name="fileToUpload" id="fileToUpload"></div>
+
 		             <div class="reset_sign" style="text-align:center;">
 			           	 <input type="submit" name="key" value="등록" />			        
 			           	 <a href="/index.php/evaluation">취소</a>

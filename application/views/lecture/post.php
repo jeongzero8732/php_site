@@ -58,9 +58,16 @@
 		                   
 		                    <td>
 		                        <textarea name="evalContent" maxlength="2048" required style="height:180px;width:430px;" disabled ><?=$evalutionContent?></textarea>
+								<img src="<?=$file?>" style="width: 300px;
+												height: 300px;
+												text-align: center;
+												margin-left: auto;
+												margin-right: auto;
+												display: block;" alt="My Image">
 		                    </td>
 		                </tr>
 		             </table>
+				
 		             <div class="reset_sign" style="text-align:center;">	
                          <a href="/index.php/evaluation">돌아가기</a>
                          <?php
@@ -70,8 +77,12 @@
                         <input type="hidden" name="id" value="<?=$evalutionID?>">
                          <input type="submit" value="수정하기">
                          </form>
-                         <a href="/index.php/evaluation/delete">회원탈퇴</a>
+						 <form action="/index.php/evaluation/delete" method="POST">
+                         	<input type="submit" value="글삭제">
+							<input type="hidden" name="eid" value="<?=$evalutionID?>">
+						 </form>
                             <?php }?>
+
 		            </div>
 		   		</div>
 			</div>

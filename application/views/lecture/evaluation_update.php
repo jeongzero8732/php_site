@@ -8,7 +8,7 @@
 				<?php echo validation_errors(); ?>
 		        </div>
 		        <br><br>
-		        <form action="/index.php/evaluation/update" method="post">
+		        <form action="/index.php/evaluation/update" method="post" enctype="multipart/form-data">
 		            <table class="sign-table">
 		                <tr>
 		                    <td id="title">강의명</td>
@@ -77,9 +77,17 @@
 		                   
 		                    <td>
 		                        <textarea name="evalContent" maxlength="2048" value="<?=$evalutionContent?>" required style="height:180px;width:430px;"></textarea>
+								<img src="<?=$file?>" style="width: 300px;
+												height: 300px;
+												text-align: center;
+												margin-left: auto;
+												margin-right: auto;
+												display: block;" alt="My Image">
 		                    </td>
+
 		                </tr>
 		             </table>
+					 <div><input type="file" name="fileToUpload" id="fileToUpload"></div>
 		             <div class="reset_sign" style="text-align:center;">
                         <input type="hidden" name="id" value="<?=$evalutionID?>">
 			           	<input type="submit" name="key" value="수정" />			        

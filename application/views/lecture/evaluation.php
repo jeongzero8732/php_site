@@ -22,7 +22,14 @@
     </div>
 </div>
 <!-- card -->
+
 <div class="container">
+<div>
+    <form method="post" action="<?=$_SERVER['REQUEST_URI']?>">
+        <input type="hidden" name="sort" value="asec">
+        <input type="submit" value="글번호 정렬">
+    </form>
+</div>
     <table class="table table-striped table-hover">
         <thead>
             <th>글번호</th>

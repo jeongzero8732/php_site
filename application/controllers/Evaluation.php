@@ -6,6 +6,7 @@ class Evaluation extends CI_Controller {
     {       
         parent::__construct();   
         $this->load->model('board'); 
+        #$this -> output -> enable_profiler(TRUE);
         
     } 
 
@@ -16,6 +17,16 @@ class Evaluation extends CI_Controller {
 
     public function insert()
     {
+        $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].'/static/img/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        // $config['max_size']     = '100';
+        // $config['max_width'] = '1024';
+        // $config['max_height'] = '768';
+
+        $this->load->library('upload', $config);
+
+        $this->upload->initialize($config);
+
         $this->load->library('form_validation');
         $this->form_validation->set_rules('lecName','강의명','required');
         $this->form_validation->set_rules('proName','교수명','required');
@@ -29,7 +40,22 @@ class Evaluation extends CI_Controller {
 
         }else{
     
+            if ( ! $this->upload->do_upload('fileToUpload'))
+            {
+                    $error = array('error' => $this->upload->display_errors());
+            }
+            else
+            {
+                    #die(var_dump($this->upload->data()));
+                    #die(var_dump($_SERVER['DOCUMENT_ROOT']));
+                    $path = array('upload_data' => $this->upload->data('file_name'));
+                    $file_path="/static/img/";
+                    $file_path.=$path['upload_data'];
+                    #die(var_dump($file_path));
+            }
+
             $data=$this->board->add(array(
+                'file_path' =>$file_path,
                 'writer'=>$this->session->userdata('nickname'),
                 'lecName'=>$this->input->post('lecName'),
                 'proName'=>$this->input->post('proName'),
@@ -42,6 +68,8 @@ class Evaluation extends CI_Controller {
                 'lecLevel'=>$this->input->post('lecLevel'),
                 'totalScore'=>$this->input->post('totalScore'),
             ));
+
+
             $this->load->helper('url');
             $this->session->set_flashdata('message','success.');
             redirect('/evaluation');
@@ -60,8 +88,9 @@ class Evaluation extends CI_Controller {
     }
 
     public function delete()
-    {
-        $this->board->delete();
+    {   
+        #die(var_dump($this->input->post('eid')));
+        $this->board->delete($this->input->post('eid'));
         $this->load->helper('url');
         $this->session->set_flashdata('message','삭제 성공');
         redirect('/evaluation');
@@ -69,6 +98,16 @@ class Evaluation extends CI_Controller {
 
     public function update()
     {
+        $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].'/static/img/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        // $config['max_size']     = '100';
+        // $config['max_width'] = '1024';
+        // $config['max_height'] = '768';
+
+        $this->load->library('upload', $config);
+        $error='';
+        $this->upload->initialize($config);
+
         $this->load->view('head');
         $this->load->view('nav');
         $this->load->library('form_validation');
@@ -81,8 +120,30 @@ class Evaluation extends CI_Controller {
             $this->load->view('lecture/evaluation_update',$post);
             $this->load->view('footer');
         }else{
+
+            if ( ! $this->upload->do_upload('fileToUpload'))
+            {
+                    $error = array('error' => $this->upload->display_errors());
+                    // $this->session->set_flashdata('message','사진사이즈가 너무 큽니다.');
+                    // $this->load->helper('url');
+                    // #die(var_dump($error));
+                    // $this->load->view('lecture/evaluation_update',$post);
+                    // #die(var_dump($error));
+            }
+            else
+            {
+                    #die(var_dump($this->upload->data()));
+                    #die(var_dump($_SERVER['DOCUMENT_ROOT']));
+                    $path = $this->upload->data('file_name');
+                    $file_path="/static/img/";
+                    #die($path);
+                    $file_path.=$path;
+                    #die(var_dump($file_path));
+            }
+
             $id_=$this->input->post('id');
             $this->board->update(array(
+                'file_path'=>$file_path,
                 'id'=>$id_,
                 'lecName'=>$this->input->post('lecName'),
                 'proName'=>$this->input->post('proName'),
@@ -109,6 +170,7 @@ class Evaluation extends CI_Controller {
 
         $this->load->library('pagination');
         $this -> output -> enable_profiler(TRUE);
+        #die(var_dump($this->input->post('sort')));
 
         $search_word=$page_url="";
         $uri_segment=4;
@@ -123,7 +185,7 @@ class Evaluation extends CI_Controller {
  
             $uri_segment = 6;
         }
-
+        #var_dump($_SERVER['REQUEST_URI']);
         $config['base_url'] = '/index.php/evaluation/list/' .$page_url.'/page/';
         $config['total_rows'] = $this->board->get_list('count', '', '', $search_word);
         $config['per_page'] = 5;
@@ -157,7 +219,13 @@ class Evaluation extends CI_Controller {
 
         $limit = $config['per_page'];
         #var_dump($start);
-        $data["results"]=$this->board->get_list( '', $start, $limit, $search_word);
+        #var_dump($_POST('sort'));
+        #die($this->input->post('sort'));
+        $sort=' ';
+        if($this->input->post('sort')){
+            $sort=$this->input->post('sort');
+        }
+        $data["results"]=$this->board->get_list( '', $start, $limit, $search_word,$sort);
 
         $this->load->view('lecture/evaluation',$data);
         $this->load->view('footer');

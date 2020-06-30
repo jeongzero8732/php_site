@@ -3,8 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
     function __construct()
-    {       
+    {        
         parent::__construct();    
+       # $this -> output -> enable_profiler(TRUE);
     }  
 
     public function index()
@@ -35,9 +36,7 @@ class Auth extends CI_Controller {
         $this->load->model('user');
         $usertable=$this->user->getbyid(array('userID'=>$this->input->post('userid')));
 
-        if(
-            $this->input->post('userid')==$usertable->userID && $this->input->post('password')==$usertable->userPasswd
-        ){
+        if( $this->input->post('userid')==$usertable->userID && $this->input->post('password')==$usertable->userPasswd){
             $this->session->set_userdata(array('is_login'=>true,'nickname'=>$usertable->userID));
             $this->load->helper('url');
             $this->session->set_flashdata('message','로그인 성공');

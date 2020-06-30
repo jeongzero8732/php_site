@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
 
         <!-- Base css -->
-        <link rel="stylesheet" href="/static/css/normalize.css">
+        <!-- <link rel="stylesheet" href="/static/css/normalize.css"> -->
         <link rel="stylesheet" href="/static/css/reset.css">
         <link rel="stylesheet" href="/static/css/bootstrap.css">
         <!-- page css -->
@@ -21,7 +21,18 @@
             $(document).ready(function() {
                 $("#search_btn").click(function() {
                     if ($("#q").val() == '') {
-                        alert("검색어를 입력하세요!");
+                        //alert("검색어를 입력하세요!");
+                        location.href="/index.php/evaluation";
+                        return false;
+                    } else {
+                        var act = "/index.php/evaluation/list/q/" + $("#q").val()+"/page/1";
+                        $("#bd_search").attr('action', act).submit();
+                    }
+                });
+
+                $("#search_btn").click(function() {
+                    if ($("#q").val() == '') {
+                        //alert("검색어를 입력하세요!");
                         location.href="/index.php/evaluation";
                         return false;
                     } else {

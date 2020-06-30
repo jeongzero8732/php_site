@@ -20,13 +20,13 @@ class Board extends CI_Model {
         $this->db->set('lecskill', $option['lecSkill']);
         $this->db->set('leclevel', $option['lecLevel']);
         $this->db->set('totalScore', $option['totalScore']);
-
+        $this->db->set('file',$option['file_path']);
         $this->db->insert('evaluation');
         $result = $this->db->insert_id();
         return $result;
     }
 
-   function get_list($type = '',$offset = '', $limit = '', $search_word= ''){
+   function get_list($type = '',$offset = '', $limit = '', $search_word= '',$sort=''){
 
        $sword = '';
  
@@ -41,8 +41,11 @@ class Board extends CI_Model {
            // 페이징이 있을 경우 처리
            $limit_query = ' LIMIT ' . $offset . ', ' . $limit;
        }
-
-       $sql = "SELECT * FROM EVALUATION ". $sword . " ORDER BY evalutionID DESC " . $limit_query;
+       if($sort=="asec"){
+            $sql = "SELECT * FROM EVALUATION ". $sword . " ORDER BY evalutionID ASC " . $limit_query;
+       }else{
+            $sql = "SELECT * FROM EVALUATION ". $sword . " ORDER BY evalutionID DESC " . $limit_query;
+       }
        #var_dump($sql);
        $query = $this -> db -> query($sql);
 
@@ -68,15 +71,15 @@ class Board extends CI_Model {
         return $this->db->count_all("evaluation");
     }
 
-    function delete()
+    function delete($eid)
     {
-        $this->db->delete('evaluation',array('writer'=>$this->session->userdata('nickname')));
-
+        $this->db->delete('evaluation',array('evalutionID'=>$eid));
     }
 
     function update($option)
     {
         $data=array(
+            'file'=>$option['file_path'],
             'lectureName'=>$option['lecName'],
              'professorName'=> $option['proName'],
              'lectureYear'=> $option['lecYear'],
